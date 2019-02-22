@@ -20,6 +20,13 @@ app.use(function (req, res, next) {
     next();
 });
 
+
+// analyse application / json 
+app.use(bodyParser.json())
+// bringg body parser 
+// analyse de l'application / x-www-form-urlencoded 
+app.use(bodyParser.urlencoded({ extended: true }))
+
 app.use(express.static(__dirname + '/public'));
 
 // bring passport 
@@ -34,11 +41,7 @@ app.get('*', (req, res, next) => {
 })
 
 
-// bringg body parser 
-// analyse de l'application / x-www-form-urlencoded 
-app.use(bodyParser.urlencoded({ extended: false }))
-// analyse application / json 
-app.use(bodyParser.json())
+
 //bringg static
 app.use(express.static('public'))
 app.use(express.static('node_modules'))

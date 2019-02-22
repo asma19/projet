@@ -1,3 +1,4 @@
+
 const express = require("express")
 const router = express.Router()
 const Product = require('../models/Product')
@@ -8,15 +9,10 @@ var util = require('util')
 router.get('/', (req, res) => {
 
     Product.find({}, (err, products) => {
-        let chunk = []
-        let chunkSize = 3
-        for (let i = 0; i < products.length; i += chunkSize) {
-            chunk.push(products.slice(i, chunkSize + i))
-
-
-        }
-        res.json(chunk)
-
+        res.json(products)
+       /* res.render('product/index', {
+            chunk: chunk
+        })*/
     })
     //show categorie
 
