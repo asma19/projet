@@ -83,7 +83,8 @@ user_id:{
         Super_U:Number,
         Eleclerc:Number,
         Casino:Number,
-        currency : {type:String,default:'euro'}
+        currency : {type:String,default:'euro'},
+        date:Date,
     }
 
 })

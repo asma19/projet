@@ -1,16 +1,13 @@
 const express = require("express")
 const app = express()
 const db = require('./config/database')
-const bodyParser = require('body-parser')
+const bodyParser =  require ( 'body-parser' )
 const session = require('express-session')
 const passport = require('passport')
 const flash = require('connect-flash')
-const port = process.env.PORT || 3000;
-const server = require('http').Server(app);
+const methodOverride = require('method-override');
 const mongoose = require('mongoose')
 const UserModel = require('./models/User');
-
-
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -21,13 +18,12 @@ app.use(function (req, res, next) {
 });
 
 
-// analyse application / json 
-app.use(bodyParser.json())
-// bringg body parser 
-// analyse de l'application / x-www-form-urlencoded 
-app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+
+
 
 // bring passport 
 app.use(passport.initialize())
@@ -35,28 +31,33 @@ app.use(passport.session())
 
 //store user object 
 
-app.get('*', (req, res, next) => {
+app.get('*', (req,res,next)=> {
     res.locals.user = req.user || null
     next()
 })
 
 
 
-//bringg static
+// bringg body parser 
+// analyse de l'application / x-www-form-urlencoded 
 app.use(express.static('public'))
 app.use(express.static('node_modules'))
 
 
-app.get('/', (req, res) => {
+
+
+app.get('/', (req,res)=>{
 
     res.redirect('/products')
 })
 //bring product routes 
 const products = require('./routes/product-routes')
-app.use('/products', products)
+app.use('/products',products)
 
-
-
+// recipe 
+const recipe = require('./routes/recipe-routes')
+app.use('/recipe',recipe)
+//bring user routes
 mongoose.connect('mongodb://127.0.0.1:27017/passport-jwt');
 mongoose.connection.on('error', error => console.log(error));
 mongoose.Promise = global.Promise;
@@ -78,10 +79,8 @@ app.use(function (err, req, res, next) {
     res.json({ error: err });
 });
 
+//listen t port 3000
+app.listen(3000,()=>{
 
-//listen  port 3000
-server.listen(port, () => {
-    console.log("app is working en port : " + port);
+    console.log('app is working en port 3000')
 })
-
-
